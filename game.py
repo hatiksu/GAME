@@ -28,16 +28,14 @@ class GameApp:
         self.sound_on = True
         self.background_music = "background.wav"
 
-        # Новая система управления скоростью
-        self.game_speed = 1.0  # Базовый множитель скорости (1.0 = нормальная скорость)
-        self.max_game_speed = 3.0  # Максимальный множитель скорости
-        self.speed_increment = 0.1  # Шаг увеличения скорости
-        self.speed_increase_interval = 500  # Очки между увеличениями скорости
+        self.game_speed = 1.0
+        self.max_game_speed = 3.0
+        self.speed_increment = 0.1
+        self.speed_increase_interval = 500
         
         self.score = 0
         self.last_speed_up_score = 0
         
-        # Физические параметры (остаются постоянными)
         self.player_base_speed = 5
         self.move_speed = 10
         self.jump_power = -12
@@ -67,7 +65,7 @@ class GameApp:
         self.player_move_x = 0
         self.obstacles = []
         self.pause_menu_shown = False
-        self.game_speed = 1.0  # Сбрасываем множитель скорости
+        self.game_speed = 1.0
 
     def load_images(self):
         if not os.path.exists("personazh.png"):
@@ -179,7 +177,7 @@ class GameApp:
 
     def start_game(self):
         self.clear_window()
-        self.reset_game_state()  # Полный сброс состояния
+        self.reset_game_state()
         self.game_active = True
         self.game_paused = False
         self.score = 0
@@ -273,9 +271,8 @@ class GameApp:
             last_coords = self.game_canvas.coords(last_obstacle)
             if last_coords and last_coords[0] > self.screen_width - 400:
                 return
-        
-        # Частота генерации зависит от текущей скорости игры
-        spawn_chance = 0.02 * (1.0 / self.game_speed)  # Чем выше скорость, тем реже появляются препятствия
+
+        spawn_chance = 0.02 * (1.0 / self.game_speed)
         if random.random() < spawn_chance:
             x = self.screen_width
             y = self.ground_level + 50
@@ -283,7 +280,7 @@ class GameApp:
             self.obstacles.append(obstacle_sprite)
 
     def move_obstacles(self):
-        current_speed = self.player_base_speed * self.game_speed  # Реальная скорость с учетом множителя
+        current_speed = self.player_base_speed * self.game_speed
         
         for obs in self.obstacles[:]:
             self.game_canvas.move(obs, -current_speed, 0)
@@ -411,7 +408,7 @@ class GameApp:
             self.pause_frame.destroy()
         if hasattr(self, 'dark_rect'):
             self.game_canvas.delete(self.dark_rect)
-        self.last_update_time = time.time()  # Сброс времени после паузы
+        self.last_update_time = time.time()
 
     def update_game(self):
         if not self.game_active:
@@ -425,7 +422,6 @@ class GameApp:
             self.master.after(16, self.update_game)
             return
 
-        # Обновление скорости игры на основе набранных очков
         if (self.score - self.last_speed_up_score) >= self.speed_increase_interval:
             self.game_speed = min(self.game_speed + self.speed_increment, self.max_game_speed)
             self.last_speed_up_score = self.score
@@ -444,7 +440,6 @@ class GameApp:
             self.high_score = self.score
             self.game_canvas.itemconfig(self.high_score_label, text=f"Рекорд: {self.high_score}")
 
-        # Рассчитываем задержку с учетом текущей скорости игры
         delay = max(5, int(30 / self.game_speed))
         self.master.after(delay, self.update_game)
 
