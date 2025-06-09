@@ -26,7 +26,7 @@ class GameApp:
         self.music_thread = None
         self.load_images()
         self.sound_on = True
-        self.background_music = "background.wav"
+        self.background_music = "sounds/background.wav"
 
         self.game_speed = 1.0
         self.max_game_speed = 3.0
@@ -68,18 +68,18 @@ class GameApp:
         self.game_speed = 1.0
 
     def load_images(self):
-        if not os.path.exists("personazh.png"):
+        if not os.path.exists("images/personazh.png"):
             raise FileNotFoundError("Файл personazh.png не найден!")
-        if not os.path.exists("prepyatsvie.png"):
+        if not os.path.exists("images/prepyatsvie.png"):
             raise FileNotFoundError("Файл prepyatsvie.png не найден!")
 
         try:
-            self.player_img = tk.PhotoImage(file="personazh.png")
+            self.player_img = tk.PhotoImage(file="images/personazh.png")
             width_ratio = max(1, int(self.player_img.width() / 150))
             height_ratio = max(1, int(self.player_img.height() / 140))
             self.player_img = self.player_img.subsample(width_ratio, height_ratio)
 
-            self.obstacle_img = tk.PhotoImage(file="prepyatsvie.png")
+            self.obstacle_img = tk.PhotoImage(file="images/prepyatsvie.png")
             width_ratio = max(1, int(self.obstacle_img.width() / 100))
             height_ratio = max(1, int(self.obstacle_img.height() / 70))
             self.obstacle_img = self.obstacle_img.subsample(width_ratio, height_ratio)
